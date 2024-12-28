@@ -1,0 +1,14 @@
+Removed Pin From Net: NetName=LCD_E Pin=24PIN-9
+Removed Pin From Net: NetName=LCD_RW Pin=24PIN-10
+Removed Pin From Net: NetName=LCD_RS Pin=24PIN-11
+Removed Pin From Net: NetName=LCD_D4 Pin=24PIN-12
+Removed Pin From Net: NetName=LCD_D5 Pin=24PIN-22
+Removed Pin From Net: NetName=LCD_D6 Pin=24PIN-23
+Removed Pin From Net: NetName=LCD_D7 Pin=24PIN-24
+Added Pin To Net: NetName=LCD_D7 Pin=24PIN-1
+Added Pin To Net: NetName=LCD_D6 Pin=24PIN-2
+Added Pin To Net: NetName=LCD_D5 Pin=24PIN-3
+Added Pin To Net: NetName=LCD_D4 Pin=24PIN-13
+Added Pin To Net: NetName=LCD_RS Pin=24PIN-14
+Added Pin To Net: NetName=LCD_RW Pin=24PIN-15
+Added Pin To Net: NetName=LCD_E Pin=24PIN-16

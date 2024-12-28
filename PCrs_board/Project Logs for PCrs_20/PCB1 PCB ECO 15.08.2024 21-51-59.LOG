@@ -1,0 +1,13 @@
+Change Component Designator: OldDesignator=U? NewDesignator=MCU
+Added Pin To Net: NetName=MISO Pin=ISP-2
+Added Pin To Net: NetName=MISO Pin=MCU-2
+Added Net: Name=MISO
+Added Pin To Net: NetName=MOSI Pin=ISP-10
+Added Pin To Net: NetName=MOSI Pin=MCU-1
+Added Net: Name=MOSI
+Added Pin To Net: NetName=RST Pin=ISP-6
+Added Pin To Net: NetName=RST Pin=MCU-4
+Added Net: Name=RST
+Added Pin To Net: NetName=SCK Pin=ISP-4
+Added Pin To Net: NetName=SCK Pin=MCU-3
+Added Net: Name=SCK
