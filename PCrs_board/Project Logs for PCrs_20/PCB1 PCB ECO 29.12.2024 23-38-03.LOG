@@ -1,0 +1,12 @@
+Added Pin To Net: NetName=LIGHT_MCU Pin=K1-1
+Added Pin To Net: NetName=LIGHT_MCU Pin=K2-3
+Added Net: Name=LIGHT_MCU
+Added Pin To Net: NetName=LIGHT_MODE Pin=MCU1-43
+Added Pin To Net: NetName=LIGHT_MODE Pin=Q2-1
+Added Net: Name=LIGHT_MODE
+Added Pin To Net: NetName=LIGHT_SET Pin=MCU1-44
+Added Pin To Net: NetName=LIGHT_SET Pin=Q3-1
+Added Net: Name=LIGHT_SET
+Added Pin To Net: NetName=LIGHT_SWITCH Pin=I/O-10
+Added Pin To Net: NetName=LIGHT_SWITCH Pin=K1-4
+Added Net: Name=LIGHT_SWITCH
