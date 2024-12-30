@@ -1,0 +1,3 @@
+Added Pin To Net: NetName=BLINKRES_SIG Pin=MCU1-42
+Added Pin To Net: NetName=BLINKRES_SIG Pin=Q4-1
+Added Net: Name=BLINKRES_SIG

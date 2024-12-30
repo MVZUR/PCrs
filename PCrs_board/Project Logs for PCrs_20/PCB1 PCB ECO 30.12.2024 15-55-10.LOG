@@ -1,0 +1,4 @@
+Removed Pin From Net: NetName=V_reg Pin=C14-1
+Removed Pin From Net: NetName=GND Pin=C14-2
+Removed Member From Class: ClassName=Sheet1 Member=C14
+Added Member To Class: ClassName=Sheet1 Member=Component C11 100nF
