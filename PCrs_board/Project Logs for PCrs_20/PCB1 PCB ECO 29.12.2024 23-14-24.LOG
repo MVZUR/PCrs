@@ -1,5 +1,0 @@
-Removed Pin From Net: NetName=DISP_KEY Pin=MCU1-12
-Removed Pin From Net: NetName=SET_KEY Pin=MCU1-13
-Added Pin To Net: NetName=SET_KEY Pin=MCU1-12
-Added Pin To Net: NetName=DISP_KEY Pin=MCU1-13
-Added Member To Class: ClassName=Sheet1 Member=Component I/O

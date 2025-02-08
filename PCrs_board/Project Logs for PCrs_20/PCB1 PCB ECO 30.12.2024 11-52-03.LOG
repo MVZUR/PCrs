@@ -1,5 +1,0 @@
-Added Pin To Net: NetName=BULB_OUT Pin=K2-1
-Added Net: Name=BULB_OUT
-Added Pin To Net: NetName=LED_OUT Pin=I/O-22
-Added Pin To Net: NetName=LED_OUT Pin=K2-4
-Added Net: Name=LED_OUT
