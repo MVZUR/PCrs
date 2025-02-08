@@ -1,0 +1,1 @@
+Clock time can be set through physical buttons on dashboard by User in this version of the code (instead of using programmer and change it in code).
