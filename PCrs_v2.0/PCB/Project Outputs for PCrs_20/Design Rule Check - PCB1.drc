@@ -1,0 +1,100 @@
+Protel Design System Design Rule Check
+PCB File : E:\SOMElectro\PROJEKTY\PCrs\PCrs\PCrs_board\PCB1.PcbDoc
+Date     : 31.12.2024
+Time     : 11:41:49
+
+Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
+Rule Violations :0
+
+Processing Rule : Un-Routed Net Constraint ( (All) )
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=0.102mm) (Max=1.27mm) (Preferred=0.254mm) (All)
+Rule Violations :0
+
+Processing Rule : Routing Topology Rule(Topology=Shortest) (All)
+Rule Violations :0
+
+Processing Rule : Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (Conductor Width=0.254mm) (Air Gap=0.254mm) (Entries=4) (All)
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=0.025mm) (Max=2.54mm) (Disabled)(All)
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=0.152mm) (Max=6.299mm) (All)
+Rule Violations :0
+
+Processing Rule : Hole To Hole Clearance (Gap=0.254mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)
+   Violation between Minimum Solder Mask Sliver Constraint: (0.196mm < 0.254mm) Between Pad L2-1(146.431mm,73.111mm) on Top Layer And Pad L2-2(146.431mm,71.561mm) on Top Layer [Top Solder] Mask Sliver [0.196mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-1(131.293mm,81.966mm) on Top Layer And Pad MCU1-2(131.293mm,81.178mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-10(131.293mm,74.778mm) on Top Layer And Pad MCU1-11(131.293mm,73.99mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-10(131.293mm,74.778mm) on Top Layer And Pad MCU1-9(131.293mm,75.59mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-12(133.045mm,72.238mm) on Top Layer And Pad MCU1-13(133.833mm,72.238mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-13(133.833mm,72.238mm) on Top Layer And Pad MCU1-14(134.645mm,72.238mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-14(134.645mm,72.238mm) on Top Layer And Pad MCU1-15(135.433mm,72.238mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-15(135.433mm,72.238mm) on Top Layer And Pad MCU1-16(136.246mm,72.238mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-16(136.246mm,72.238mm) on Top Layer And Pad MCU1-17(137.033mm,72.238mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-17(137.033mm,72.238mm) on Top Layer And Pad MCU1-18(137.82mm,72.238mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-18(137.82mm,72.238mm) on Top Layer And Pad MCU1-19(138.633mm,72.238mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-19(138.633mm,72.238mm) on Top Layer And Pad MCU1-20(139.421mm,72.238mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-2(131.293mm,81.178mm) on Top Layer And Pad MCU1-3(131.293mm,80.366mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-20(139.421mm,72.238mm) on Top Layer And Pad MCU1-21(140.233mm,72.238mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-21(140.233mm,72.238mm) on Top Layer And Pad MCU1-22(141.021mm,72.238mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-23(142.773mm,73.99mm) on Top Layer And Pad MCU1-24(142.773mm,74.778mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-24(142.773mm,74.778mm) on Top Layer And Pad MCU1-25(142.773mm,75.59mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-25(142.773mm,75.59mm) on Top Layer And Pad MCU1-26(142.773mm,76.378mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-26(142.773mm,76.378mm) on Top Layer And Pad MCU1-27(142.773mm,77.191mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-27(142.773mm,77.191mm) on Top Layer And Pad MCU1-28(142.773mm,77.978mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-28(142.773mm,77.978mm) on Top Layer And Pad MCU1-29(142.773mm,78.765mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-29(142.773mm,78.765mm) on Top Layer And Pad MCU1-30(142.773mm,79.578mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-3(131.293mm,80.366mm) on Top Layer And Pad MCU1-4(131.293mm,79.578mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-30(142.773mm,79.578mm) on Top Layer And Pad MCU1-31(142.773mm,80.366mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-31(142.773mm,80.366mm) on Top Layer And Pad MCU1-32(142.773mm,81.178mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-32(142.773mm,81.178mm) on Top Layer And Pad MCU1-33(142.773mm,81.966mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-34(141.021mm,83.718mm) on Top Layer And Pad MCU1-35(140.233mm,83.718mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-35(140.233mm,83.718mm) on Top Layer And Pad MCU1-36(139.421mm,83.718mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-36(139.421mm,83.718mm) on Top Layer And Pad MCU1-37(138.633mm,83.718mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-37(138.633mm,83.718mm) on Top Layer And Pad MCU1-38(137.82mm,83.718mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-38(137.82mm,83.718mm) on Top Layer And Pad MCU1-39(137.033mm,83.718mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-39(137.033mm,83.718mm) on Top Layer And Pad MCU1-40(136.246mm,83.718mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-4(131.293mm,79.578mm) on Top Layer And Pad MCU1-5(131.293mm,78.765mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-40(136.246mm,83.718mm) on Top Layer And Pad MCU1-41(135.433mm,83.718mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-41(135.433mm,83.718mm) on Top Layer And Pad MCU1-42(134.645mm,83.718mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-42(134.645mm,83.718mm) on Top Layer And Pad MCU1-43(133.833mm,83.718mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-43(133.833mm,83.718mm) on Top Layer And Pad MCU1-44(133.045mm,83.718mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-5(131.293mm,78.765mm) on Top Layer And Pad MCU1-6(131.293mm,77.978mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-6(131.293mm,77.978mm) on Top Layer And Pad MCU1-7(131.293mm,77.191mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.102mm < 0.254mm) Between Pad MCU1-7(131.293mm,77.191mm) on Top Layer And Pad MCU1-8(131.293mm,76.378mm) on Top Layer [Top Solder] Mask Sliver [0.102mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad MCU1-8(131.293mm,76.378mm) on Top Layer And Pad MCU1-9(131.293mm,75.59mm) on Top Layer [Top Solder] Mask Sliver [0.076mm]
+Rule Violations :41
+
+Processing Rule : Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Arc (128.016mm,48.967mm) on Top Overlay And Pad L1-1(128.016mm,50.267mm) on Top Layer [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.245mm < 0.254mm) Between Pad I/O-1(163.615mm,107.115mm) on Multi-Layer And Track (164.59mm,108.765mm)(164.59mm,109.965mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.245mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.215mm < 0.254mm) Between Pad I/O-12(163.615mm,60.915mm) on Multi-Layer And Track (164.59mm,58.065mm)(164.59mm,59.565mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.215mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad L1-1(128.016mm,50.267mm) on Top Layer And Track (125.366mm,49.717mm)(126.566mm,49.717mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad L1-1(128.016mm,50.267mm) on Top Layer And Track (129.466mm,49.717mm)(130.666mm,49.717mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad L1-2(128.016mm,56.667mm) on Top Layer And Track (125.366mm,57.217mm)(126.566mm,57.217mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad L1-2(128.016mm,56.667mm) on Top Layer And Track (129.466mm,57.217mm)(130.666mm,57.217mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.229mm < 0.254mm) Between Pad MCU1-1(131.293mm,81.966mm) on Top Layer And Track (132.334mm,82.118mm)(132.893mm,82.677mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.229mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.229mm < 0.254mm) Between Pad MCU1-44(133.045mm,83.718mm) on Top Layer And Track (132.334mm,82.118mm)(132.893mm,82.677mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.229mm]
+Rule Violations :9
+
+Processing Rule : Silk to Silk (Clearance=0.254mm) (All),(All)
+   Violation between Silk To Silk Clearance Constraint: (0.18mm < 0.254mm) Between Text "RST1" (121.751mm,89.281mm) on Top Overlay And Track (121.8mm,85.6mm)(121.8mm,88.9mm) on Top Overlay Silk Text to Silk Clearance [0.18mm]
+   Violation between Silk To Silk Clearance Constraint: (0.177mm < 0.254mm) Between Text "RST1" (121.751mm,89.281mm) on Top Overlay And Track (121.8mm,88.9mm)(127.3mm,88.9mm) on Top Overlay Silk Text to Silk Clearance [0.177mm]
+Rule Violations :2
+
+Processing Rule : Net Antennae (Tolerance=0mm) (All)
+Rule Violations :0
+
+Processing Rule : Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)
+Rule Violations :0
+
+
+Violations Detected : 52
+Waived Violations : 0
+Time Elapsed        : 00:00:00
