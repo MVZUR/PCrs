@@ -1,5 +1,5 @@
 # PCrs
-Onboard Computer & System for cheap 4T scooters to improve safety and expand functionalities.
+Onboard Computer & System for cheap 4T scooters to improve safety and expand functionalities. <br>
 It can be also used with 2T scooters but code modifications is necessary - particularly the RPM counting fragment.
 
 Vehicle used for testing: Benda BD50QT-14
@@ -13,6 +13,6 @@ Vehicle used for testing: Benda BD50QT-14
 - stand sensor controll
 
 # Revisions:
-v1.0 - *do not use* - the first version of the Computer. Many mistakes were made in this version, what makes it unable to use.
-v1.1 - *do not use* - works on prototype board, but doesn't work in the target system. Computer got damaged but its unable to diagnose due to hermetic case.
-v2.0 - *under test* - the second version of the Computer.
+- <b>v1.0</b> - *do not use* - the first version of the Computer. Many mistakes were made in this version, what makes it unable to use.
+- <b>v1.1</b> - *do not use* - works on prototype board, but doesn't work in the target system. Computer got damaged but its unable to diagnose due to hermetic case.
+- <b>v2.0</b> - *under test* - the second version of the Computer.
