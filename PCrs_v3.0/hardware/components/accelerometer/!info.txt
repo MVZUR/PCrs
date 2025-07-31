@@ -1,0 +1,20 @@
+
+************************* MODELS: *************************
+***********************************************************
+
+-----------
+| MPU6050 |
+-----------
+
+- interface: I2C
+
+- datasheet:
+https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf
+
+- STM example code:
+https://github.com/lamik/MPU6050_STM32_HAL
+
+- shop:
+https://sklep.msalamon.pl/produkt/mpu6050-modul/?srsltid=AfmBOorA1jLkXugkkmqp_ber4NnEZOeTrOMuXJommjQZGKyr9hfnSXDf
+
+__________________________________________________________________________________________________________________

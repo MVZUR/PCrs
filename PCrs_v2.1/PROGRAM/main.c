@@ -5,7 +5,7 @@
  *      Author: Maksymilian
  */
 
-// pliki nag³ówkowe
+// pliki nagï¿½ï¿½wkowe
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -19,39 +19,39 @@ int main(void)
 {
 
 //****************************************************
-//* inicjalizacja systemów / ustawienia pinów portów *
+//* inicjalizacja systemï¿½w / ustawienia pinï¿½w portï¿½w *
 //****************************************************
 
 	sei();				// globalne zezwolenie na przerwania
 
 	clock_init();		// <-- ZEGAR
 
-	idle_init();		// <-- pin syg. do uruchomienia stanu bezczynnoœci
+	idle_init();		// <-- pin syg. do uruchomienia stanu bezczynnoï¿½ci
 
 
 
 	// ****** czujniki ******
-		sensor_init();			// <-- czujniki temperatury i oœwietlenia
-		rpm_init();				// <-- detekcja iskry ( wskaŸnik RPM )
+		sensor_init();			// <-- czujniki temperatury i oï¿½wietlenia
+		rpm_init();				// <-- detekcja iskry ( wskaï¿½nik RPM )
 		foto_sig_init();		// <-- sterowanie reflektorami
 	// **********************
 
 
 	// systemy
 		stand_init();			// <-- przycisk czujnika stopki
-		dispkey_init();			// <-- przycisk zmiany treœci na ekranie
-		setkey_init();			// <-- przycisk zmiany ustawieñ
-		buzzer_init();			// <-- sterowanie buzzerem (sygna³y dŸwiêkowe)
-		blinker_init();			// <-- STEROWNIK - oprog. migaj¹ce kierunkowskazami
-		blinkerskey_init();		// <-- przycisk sterownika kierunkowskazów
+		dispkey_init();			// <-- przycisk zmiany treï¿½ci na ekranie
+		setkey_init();			// <-- przycisk zmiany ustawieï¿½
+		buzzer_init();			// <-- sterowanie buzzerem (sygnaï¿½y dï¿½wiï¿½kowe)
+		blinker_init();			// <-- STEROWNIK - oprog. migajï¿½ce kierunkowskazami
+		blinkerskey_init();		// <-- przycisk sterownika kierunkowskazï¿½w
 	// **********************
 
 
 	while(1)
 	{
-		idle();				// <-- stan bezczynnoœci
+		idle();				// <-- stan bezczynnoï¿½ci
 
-	// ***** wyœwietlacz *****
+	// ***** wyï¿½wietlacz *****
 		_delay_ms(10);
 		lcd_init();
 		lcd_cls();
