@@ -11,47 +11,62 @@
 #include <avr/interrupt.h>
 
 #include "fun_lib.h"
-#include "../LCD/lcd_lib.h"	//  ../ - wychodzi folder wy¿ej
+#include "../LCD/lcd_lib.h"
+
+// function declarations
+void idle_init(void);
+void idle(void);
+void clock_init(void);
+void rpm_init(void);
+void sensor_init(void);
+void tmp_check(void);
+void foto_sig_init(void);
+void foto_check(void);
+void stand_init(void);
+void stand_check(void);
+void blinkerskey_init(void);
+void blinker_init(void);
+void blinkers_check(void);
+void blinkers(void);
+void buzzer_init(void);
+void buzzer_check(void);
+void buzzer_off(void);
+void setkey_init(void);
+void setkey_check(void);
+void dispkey_init(void);
+void dispkey_check(void);
+void display(void);
 
 
 //-----------------------
-// 	SEKCJA USTAWIEÑ		|
-//						|
-//	USTAWIENIA DOMYŒLNE	|
+// 		SETTINGS		|
+// 	default settings	|
 //-------------------------------------------------------------------------------------
-uint8_t use_buz = 0;	// zmienna wysy³aj¹ca informacjê do oprogramowania buzzera (x - iloœæ syg.)
-						// x - buzzer aktyw. 	0 - buzzer dezaktyw.
+uint8_t use_buz = 0;	// buzzer on/off (x - number of signals.)
+						// x - buzzer on	0 - buzzer off
 
-uint8_t ref = 0;		// zmienna zapamiêtuj¹ca ustawienie trybu pracy reflektorów
+uint8_t ref = 0;		// lights mode
 						// 1 - MANUAL			0 - AUTO
 
-uint8_t ref_set = 0;	// ustawienie reflektorów w trybie auto
-						// 1 - mijania			0 - LEDY (dzienne)
+uint8_t ref_set = 0;	// lights default set in AUTO mode
+						// 1 - PASS			0 - LEDS (daily)
 
-uint8_t buz = 1;		// zmienna zapamiêtuj¹ca ustawienie buzzera
-						// 1 - w³¹czony			0 - wy³¹czony
+uint8_t buz = 1;		// buzzer set
+						// 1 - on			0 - off
 //-------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
 
 
 
 
 
 // ******************************************************************************************
-// *                                   STAN BEZCZYZNNOŒCI                                   *
+// *                                   		IDLE STATE		                                *
 // ******************************************************************************************
 
 void idle_init(void)
 {
-	DDR(IDLE_PORT) &= ~IDLE_PIN;	// ustawienie pinu sygna³u wprowadzaj¹cego w stan idle (WEJŒCIE)
-	PORT(IDLE_PORT) |= IDLE_PIN;	// podci¹gniêcie do VCC
+	DDR(IDLE_PORT) &= ~IDLE_PIN;	// idle pin as input
+	PORT(IDLE_PORT) |= IDLE_PIN;	// pullup
 }
 
 
@@ -59,34 +74,32 @@ void idle(void)
 {
 	if(IDLE_ACTIVE)
 	{
-		lcd_cls();				// wyczyœæ ekran
+		lcd_cls();				// clear screen
 
 
-		TCCR2 &= ~(1<<CS22);	// wy³¹cz licznik RPM
+		TCCR2 &= ~(1<<CS22);	// turn off RPM counter
 		TCCR2 &= ~(1<<CS21);	// ...
 		TCCR2 &= ~(1<<CS20);	// ...
 
-		GICR &= ~(1<<INT0);		// zablokowanie przerwañ na pinie INT0
+		GICR &= ~(1<<INT0);		// lock the interrupts on INT0 pin
 
-		ADCSRA &= ~(1<<ADEN);	// wy³¹czenie ADC
+		ADCSRA &= ~(1<<ADEN);	// turn off ADC
 
 
 
 	}
 
-	while(IDLE_ACTIVE)		// STAN BEZCZYNNOŒCI
+	while(IDLE_ACTIVE)		// IDLE STATE
 	{
 		blinkers_check();
 		blinkers();
 	}
 
-		TCCR2 |= (1<<CS22);	// w³¹cz licznik RPM
-		TCCR2 |= (1<<CS21);	// ...
-		TCCR2 |= (1<<CS20);	// ...
+	// if not..
 
-		GICR |= (1<<INT0);		// odblokowanie przerwañ na pinie INT0
 
-		ADCSRA |= (1<<ADEN);	// w³¹czenie ADC
+	rpm_init();
+	ADCSRA |= (1<<ADEN);	// turn ADC on
 }
 // ******************************************************************************************
 
@@ -94,43 +107,37 @@ void idle(void)
 
 
 
+// *****************************************************************************************
+// *                                       RPM counter                                     *
+// *****************************************************************************************
 
+uint8_t spark_sig = 1;					// spark signal
+uint8_t check_spark_sig = 0;			// check if spark signal appears
+uint32_t delay_between_sparks = 0;		// time between sparks
+uint32_t rpm = 0;						// RPM value
+uint8_t graph_value = 0;				// to convert rpm RPM value to graphical representation (as 16 rectangles)
+uint8_t frequency_cutter2 = 0;			// variable that reduce rectangles refresh rate to prevent 'ghosting'
 
-
-
-
-
-
-
-
-
-// ****************************************************************************************
-// *                                      czujnik RPM                                     *
-// ****************************************************************************************
-
-uint8_t spark_sig = 1;					// sygna³ podawany z iskry
-uint8_t check_spark_sig = 0;			// sprawdzanie czy sygna³ z iskry jest wysy³any
-uint32_t delay_between_sparks = 0;		// odcinek czasu miêdzy iskrami
-uint32_t rpm = 0;						// wartoœæ obrotów na minutê
-uint8_t graph_value = 0;				// podzia³ka RPM na 16 wyœwietlanych graficznie prostok¹tów
-uint8_t frequency_cutter2 = 0;			// zmienna zmniejszaj¹ca czêstotliwoœæ aktualizacji RPM
-										// ... aby zapobiec "smu¿eniu"
 
 
 void rpm_init(void)
 {
-	DDR(RPM_PORT) &= ~RPM_PIN;		// ustawienie pinu do pomiaru RPM (WEJŒCIE)
-	PORT(RPM_PORT) &= ~RPM_PIN;		// podci¹gniêcie do GND
-	TIMSK |= (1<<TOIE2);			// zezwolenie na przerwania TIMER2
+	DDR(RPM_PORT) &= ~RPM_PIN;		// RPM pin as input (INT0 -> PD2)
 
-	GICR |= (1<<INT0);				// odblokowanie przerwañ na pinie INT0
+	TCCR2 |= (1<<CS22);	// turn on RPM counter
+	TCCR2 |= (1<<CS21);	// ...
+	TCCR2 |= (1<<CS20);	// ...
 
-	MCUCR |= (1<<ISC01);			// wyzwolenie przerwania na zboczu opadaj¹cym
+	TIMSK |= (1<<TOIE2);			// allow interrupts - TIMER2
+
+	GICR |= (1<<INT0);				// unlock INT0 interrupts
+
+	MCUCR |= (1<<ISC01);			// interrupt on falling edge
 	MCUCR &= ~(1<<ISC00);			// ...
 }
 
 
-// procedura obs³ugi przerwania wyzwolonego zmian¹ stanu na pinie INT0
+// INT0 interrupt handler
 ISR(INT0_vect)
 {
 	spark_sig++;
@@ -142,12 +149,12 @@ ISR(INT0_vect)
 
 	TCCR2 |= (1<<CS20);
 
-	if(spark_sig > 50)			// odcinek czasu mierzony pomiêdzy 50-cioma iskrami
+	if(spark_sig > 50)			// time measured between 50 sparks
 	{
 		spark_sig = 0;
 
 
-		TCCR2 &= ~(1<<CS22);	// wy³¹cz licznik buzzera
+		TCCR2 &= ~(1<<CS22);	// turn off buzzer counter
 		TCCR2 &= ~(1<<CS21);	// ...
 		TCCR2 &= ~(1<<CS20);	// ...
 
@@ -155,7 +162,7 @@ ISR(INT0_vect)
 
 	if(delay_between_sparks == 0)
 	{
-		_delay_ms(1);			// opóŸnienie potrzebne aby prawid³owo wykonaæ pomiary
+		_delay_ms(1);			// delay necessary to make measurement correctly
 	}
 
 	else
@@ -164,8 +171,8 @@ ISR(INT0_vect)
 		{
 			if(frequency_cutter2 == 0)
 			{
-				rpm = 3570000/delay_between_sparks;		// konwertowanie d³ugoœci odcinka czasu
-			}											// .. na wartoœæ RPM
+				rpm = 3570000/delay_between_sparks;		// time conversion
+			}											// .. to RPM value
 
 		}
 		delay_between_sparks = 0;
@@ -175,10 +182,10 @@ ISR(INT0_vect)
 }
 
 
-// procedura obs³ugi przerwania dla TIMER2
+// TIMER2 interrupt handler
 ISR(TIMER2_OVF_vect)
 {
-	delay_between_sparks++;						// <-- pomiar odcinka czasu miêdzy iskrami
+	delay_between_sparks++;						// <-- measure of time between sparks
 }
 // *****************************************************************************************
 
@@ -186,37 +193,27 @@ ISR(TIMER2_OVF_vect)
 
 
 
-
-
-
-
-
-
-
-
-
-
 // *****************************************************************************************
-// *                                         ZEGAR                                         *
+// *                                         CLOCK                                         *
 // *****************************************************************************************
 
-// --------------------
-// NASTAWIANIE ZEGARA |
-// --------------------
-uint8_t sec = 0;				// <-- sekunda
-uint8_t min = 58;				// <-- minuta
-uint8_t hour = 18;				// <-- godzina
-uint8_t day = 28;				// <-- dzieñ
-uint8_t day_name = 5;			// <-- 1-pon / 2-wto / 3-œro / 4-czw / 5-pt / 6-sb / 7-nd
-uint8_t month = 7;				// <-- miesi¹c
-uint8_t feb_correction = 3;		// <-- rok przestêpny w Lutym
-uint16_t year = 2023;			// <-- rok
+// -------------------
+// SETTING THE CLOCK |
+// -------------------
+uint8_t sec = 0;				// <-- secs
+uint8_t min = 58;				// <-- mins
+uint8_t hour = 18;				// <-- hours
+uint8_t day = 28;				// <-- days
+uint8_t day_name = 5;			// <-- 1-monday / 2-tuesday / 3-wednesday / 4-thursday / 5-friday / 6-saturday / 7-sunday
+uint8_t month = 7;				// <-- months
+uint8_t feb_correction = 3;		// <-- leap year in february
+uint16_t year = 2023;			// <-- years
 // --------------------
 
-// zmienne operacyjne
-char dot = 58;					// migaj¹cy dwukropek
+// operational variables
+char dot = 58;					// blinking dots
 
-// rêczne ustawianie zegara
+// setting the clock manually
 uint8_t mark1 = 0;
 uint8_t mark2 = 0;
 uint8_t clock_set = 0;
@@ -224,15 +221,15 @@ uint8_t clock_set = 0;
 
 void clock_init(void)
 {
-	// inicjalizacja TIMER1
-	TCCR1B |= (1<<WGM12);	// wybór trybu pracy CTC
-	TCCR1B |= (1<<CS12);	// preskaler 256
-	OCR1A = 31249;		//rejestr porównania
-	TIMSK |= (1<<OCIE1A);	//zezwolenie na przerwanie
+	// TIMER1 init
+	TCCR1B |= (1<<WGM12);	// mode CTC
+	TCCR1B |= (1<<CS12);	// prescaler 256
+	OCR1A = 31249;			// copare register
+	TIMSK |= (1<<OCIE1A);	// interrupt enable
 }
 
 
-// procedura obs³ugi przerwania dla TIMER1 -> ZEGAR
+// TIMER1 interrupt handler -> CLOCK
 ISR(TIMER1_COMPA_vect)
 {
 	sec++;
@@ -271,9 +268,9 @@ ISR(TIMER1_COMPA_vect)
 		}
 	}
 
-	if(month == 2)						// <-- luty
+	if(month == 2)						// <-- february
 	{
-		if(feb_correction == 4)			// <<< rok przestêpny
+		if(feb_correction == 4)			// <<< leap year
 		{
 			if(day > 29)
 			{
@@ -318,55 +315,55 @@ ISR(TIMER1_COMPA_vect)
 
 
 
-	// DO WSKAZAÑ RPM:
-	// sprawdzanie czy sygna³ z iskrownika jest wysy³any
+	// to RPM indication:
+	// check if the spark signal is present
 
-	if(spark_sig == check_spark_sig)	// jeœli sygna³ z iskrownika nie zmieni³ siê przez sekundê
+	if(spark_sig == check_spark_sig)	// if spark signal do not change for 1 sec
 	{									// ...
-		rpm = 0;						// wyzeruj wskazania
+		rpm = 0;						// clear rpm value (engine stopped)
 	}
 
 	spark_sig = check_spark_sig;
 
 
 
-	// ---------- RÊCZNE NASAWIANIE ZEGARA -----------------------------------------------
+	// ---------- SETTING THE CLOCK MANUALLY -----------------------------------------------
 
 	if(LCD_SET_KEY_DOWN)
 	{
-		mark1++;		// odlicz do 3
+		mark1++;		// count to 3
 	}
 	else
 	{
-		mark1 = 0;		// jeœli SETkey zosta³ puszczony, wyzeruj
+		mark1 = 0;		// if SET key is released, clear
 	}
 
-	if(mark1 == 3)		// jeœli SETkey dalej wciœniêty, uruchom nastawianie zegara
+	if(mark1 == 3)		// if not, run setting the clock procedure
 	{
 		PORT(BUZ_PORT) &= ~BUZ_PIN;
 
-		// przyspiesz Timer1
-		TCCR1B &= ~(1<<CS12);	// preskaler 64
+		// make Timer1 faster
+		TCCR1B &= ~(1<<CS12);	// prescaler 64
 		TCCR1B |= (1<<CS11);	// ...
 		TCCR1B |= (1<<CS10);	// ...
 
 
-		clock_set = 1;			// PROCEDURA NASTAWIANIA ZEGARA
+		clock_set = 1;			// SETTING THE CLOCK PROCEDURE
 
 		while(clock_set == 1)
 		{
 
-			lcd_locate(0,13);	// nawet jeœli kropki pomiêdzy godz. i min. zniknê³y,
-			lcd_str(":");		// wyœwietl je ponownie
+			lcd_locate(0,13);	// if dots between hours & mins disappear,
+			lcd_str(":");		// show them again
 
-			_delay_ms(100);		// na spokojnie..
+			_delay_ms(100);		// calmly..
 
-			// NAZWA DNIA ***********************
+			// NAME OF THE DAY ***********************
 			lcd_locate(0,0);
 			lcd_str("           ");
 			_delay_ms(1000);
 			lcd_locate(0,0);
-			switch(day_name)	// wyœwietlanie
+			switch(day_name)	// DISPLAY
 			{
 				case 1:
 					lcd_str("Monday");
@@ -391,9 +388,9 @@ ISR(TIMER1_COMPA_vect)
 					break;
 			}
 
-			while(1) // <-- zmiana nazwy dnia
+			while(1) // <-- day name adjustment
 			{
-				if(LCD_DISP_KEY_DOWN)	// SETkey - zwiêksz numer przypisany do nazwy dnia o 1
+				if(LCD_DISP_KEY_DOWN)	// SETkey - increase day number (name) by 1
 				{
 					day_name++;
 
@@ -403,12 +400,12 @@ ISR(TIMER1_COMPA_vect)
 						day_name = 1;
 					}
 
-					PORT(BUZ_PORT) |= BUZ_PIN;	// sygna³ dŸwiêkowy
+					PORT(BUZ_PORT) |= BUZ_PIN;	// buzzer on
 
 					lcd_locate(0,0);
-					lcd_str("           ");		// <-- wskazanie co zostaje teraz zmieniane
+					lcd_str("           ");		// <-- to show what is gonna to be change (blinking)
 					lcd_locate(0,0);
-					switch(day_name)	// wyœwietlanie nazwy dnia
+					switch(day_name)	// display new value
 					{
 						case 1:
 							lcd_str("Monday");
@@ -434,7 +431,7 @@ ISR(TIMER1_COMPA_vect)
 					}
 
 					_delay_ms(20);
-					PORT(BUZ_PORT) &= ~BUZ_PIN;	// wy³. sygna³ dŸwiêkowy
+					PORT(BUZ_PORT) &= ~BUZ_PIN;	// buzzer off
 					_delay_ms(280);
 				}
 
@@ -483,13 +480,13 @@ ISR(TIMER1_COMPA_vect)
 
 
 
-			// GODZINY ***********************
+			// HOURS ***********************
 			lcd_locate(0,11);
 			lcd_str("  ");
 			_delay_ms(1000);
 
 			lcd_locate(0,11);
-			if(hour < 10)		// wyœwietlanie
+			if(hour < 10)		// DISPLAY
 			{
 				lcd_int(0);
 				lcd_locate(0,12);
@@ -501,9 +498,9 @@ ISR(TIMER1_COMPA_vect)
 			}
 
 
-			while(1) // <-- zmiana godziny
+			while(1) // <-- hour adjustment
 			{
-				if(LCD_DISP_KEY_DOWN) // SETkey - zwiêksz godzinê o 1
+				if(LCD_DISP_KEY_DOWN) // SETkey - increase hour by 1
 				{
 					hour++;
 
@@ -517,7 +514,7 @@ ISR(TIMER1_COMPA_vect)
 
 					lcd_locate(0,11);
 
-					if(hour < 10)		// wyœwietlanie
+					if(hour < 10)		// display new value
 					{
 						lcd_int(0);
 						lcd_locate(0,12);
@@ -525,7 +522,7 @@ ISR(TIMER1_COMPA_vect)
 					}
 					else
 					{
-						lcd_int(hour);
+						lcd_int(hour);	// (without 0)
 					}
 
 					_delay_ms(20);
@@ -580,13 +577,13 @@ ISR(TIMER1_COMPA_vect)
 
 
 
-			// MINUTY ***********************
+			// MINUTES ***********************
 			lcd_locate(0,14);
 			lcd_str("  ");
 			_delay_ms(1000);
 
 			lcd_locate(0,14);
-			if(min < 10)		// wyœwietlanie
+			if(min < 10)		// DISPLAY (with 0 before number)
 			{
 				lcd_int(0);
 				lcd_locate(0,15);
@@ -600,7 +597,7 @@ ISR(TIMER1_COMPA_vect)
 
 			while(1)
 			{
-				if(LCD_DISP_KEY_DOWN)
+				if(LCD_DISP_KEY_DOWN)	// <- minute adjustment
 				{
 					min++;
 
@@ -614,7 +611,7 @@ ISR(TIMER1_COMPA_vect)
 
 					lcd_locate(0,14);
 
-					if(min < 10)		// wyœwietlanie
+					if(min < 10)		// display new value (with 0 before number)
 					{
 						lcd_int(0);
 						lcd_locate(0,15);
@@ -623,7 +620,7 @@ ISR(TIMER1_COMPA_vect)
 					else
 					{
 
-						lcd_int(min);
+						lcd_int(min);	// (without 0)
 					}
 
 					_delay_ms(20);
@@ -677,14 +674,14 @@ ISR(TIMER1_COMPA_vect)
 
 
 
-			// DNI ***********************
+			// DAYS ***********************
 			lcd_locate(1,0);
 			lcd_str("  ");
 			_delay_ms(1000);
 
 
 			lcd_locate(1,0);
-			if(day < 10)		// wyœwietlanie
+			if(day < 10)		// DISPLAY
 			{
 				lcd_int(0);
 				lcd_locate(1,1);
@@ -696,15 +693,15 @@ ISR(TIMER1_COMPA_vect)
 				lcd_int(day);
 			}
 
-			while(1)
+			while(1)	// <- day adjustment
 			{
 				if(LCD_DISP_KEY_DOWN)
 				{
 					day++;
 
-					if(month == 2)						// <-- luty
+					if(month == 2)						// <-- february
 					{
-						if(feb_correction == 4)			// <<< rok przestêpny
+						if(feb_correction == 4)			// <<< leap year
 						{
 							if(day > 29)
 							{
@@ -735,7 +732,7 @@ ISR(TIMER1_COMPA_vect)
 
 
 					lcd_locate(1,0);
-					if(day < 10)		// wyœwietlanie
+					if(day < 10)		// display new value
 					{
 						lcd_int(0);
 						lcd_locate(1,1);
@@ -798,14 +795,14 @@ ISR(TIMER1_COMPA_vect)
 
 
 
-			// MIESI¥CE ***********************
+			// MONTHS ***********************
 			lcd_locate(1,3);
 			lcd_str("  ");
 			_delay_ms(1000);
 
 
 			lcd_locate(1,3);
-			if(month < 10)			// wyœwietlanie
+			if(month < 10)			// DISPLAY
 			{
 				lcd_int(0);
 				lcd_locate(1,4);
@@ -817,7 +814,7 @@ ISR(TIMER1_COMPA_vect)
 				lcd_int(month);
 			}
 
-			while(1)
+			while(1)	// <- months adjustment
 			{
 				if(LCD_DISP_KEY_DOWN)
 				{
@@ -832,7 +829,7 @@ ISR(TIMER1_COMPA_vect)
 
 
 					lcd_locate(1,3);
-					if(month < 10)			// wyœwietlanie
+					if(month < 10)			// display new value
 					{
 						lcd_int(0);
 						lcd_locate(1,4);
@@ -895,16 +892,16 @@ ISR(TIMER1_COMPA_vect)
 
 
 
-			// LATA ***********************
+			// YEARS ***********************
 			lcd_locate(1,6);
 			lcd_str("    ");
 			_delay_ms(1000);
 
 
-			lcd_locate(1,6);	//wyœwietlanie
+			lcd_locate(1,6);	// DISPLAY
 			lcd_int(year);
 
-			while(1)
+			while(1)	// <- years adjustment
 			{
 				if(LCD_DISP_KEY_DOWN)
 				{
@@ -925,7 +922,7 @@ ISR(TIMER1_COMPA_vect)
 					PORT(BUZ_PORT) |= BUZ_PIN;
 
 
-					lcd_locate(1,6);	//wyœwietlanie
+					lcd_locate(1,6);	// display new value
 					lcd_int(year);
 
 					_delay_ms(20);
@@ -979,7 +976,7 @@ ISR(TIMER1_COMPA_vect)
 
 		}
 
-		TCCR1B |= (1<<CS12);	// preskaler 256
+		TCCR1B |= (1<<CS12);	// prescaler 256
 		TCCR1B &= ~(1<<CS11);	// ...
 		TCCR1B &= ~(1<<CS10);	// ...
 
@@ -993,26 +990,16 @@ ISR(TIMER1_COMPA_vect)
 
 
 
-
-
-
-
-
-
-
-
-
-
 // *****************************************************************************************
-// *                                        CZUJNIKI                                       *
+// *                                         SENSORS                                       *
 // *****************************************************************************************
 
 uint8_t tmp = 0;
 uint16_t tmp_value = 0;
 uint16_t foto_value = 0;
 
-uint8_t remember1 = 99;		// zmienne zapamiêtuj¹ca poprzedni stan ustawienia ref
-uint8_t remember2 = 99;		// w celu unikniêcia powtórek
+uint8_t remember1 = 99;		// variables to save previous state of ref
+uint8_t remember2 = 99;		// to prevent repeats
 
 uint8_t frequency_cutter = 0;
 
@@ -1020,31 +1007,31 @@ uint8_t frequency_cutter = 0;
 
 void sensor_init(void)
 {
-	// inicjalizacja ADC
-	ADMUX |= (1<<REFS1) | (1<<REFS0);			// wewnêtrzne Ÿród³o odniesienia (2,56V)
-	ADCSRA |= (1<<ADEN);						// uruchomienie adc
+	// ADC init
+	ADMUX |= (1<<REFS1) | (1<<REFS0);			// initial ref voltage source (2,56V)
+	ADCSRA |= (1<<ADEN);						// ADC on
 	ADCSRA |= (1<<ADPS2) | (1<<ADPS1);			// prescaller 64
 }
 
 
 void tmp_check(void)
 {
-	// KANA£ ADC0
+	// channel ADC0
 	ADMUX = (ADMUX & 0xF8) | 0;
 
-	ADCSRA |= (1<<ADSC);			// start pomiarów
-	while( ADCSRA & (1<<ADSC) );	// oczekiwanie na koniec pomiarów
+	ADCSRA |= (1<<ADSC);			// start of measurements
+	while( ADCSRA & (1<<ADSC) );	// wait for end of the measurements
 
-	tmp_value = (ADCW);				// wartoœæ odczytana przez ADC
-	
-	if(frequency_cutter > 200)		// aktualizuj wartoœæ co 200 odœwie¿eñ
-	{								// aby zapobiec "smu¿eniu"
+	tmp_value = (ADCW);				// value measured by ADC
+
+	if(frequency_cutter > 200)		// update ADC value with freq/200
+	{								// to prevent 'ghosting'
 		frequency_cutter = 0;
 	}
 
 	if(frequency_cutter == 0)		// ...
 	{
-		// konwertowanie wartoœci z ADC na temperaturê
+		// convert ADC value to temperature
 		tmp = (105 - ((0.09)*tmp_value));
 	}
 
@@ -1054,48 +1041,46 @@ void tmp_check(void)
 
 void foto_sig_init(void)
 {
-	DDR(FOTO_SIG_MODE_PORT) |= FOTO_SIG_MODE_PIN;	// ustawienie pinu sygna³u AUTO-MANUAL (WYJŒCIE)
-	DDR(FOTO_SIG_LIGHT_PORT) |= FOTO_SIG_LIGHT_PIN;	// ustawienie pinu sygna³u LED-drogowe (WYJŒCIE)
+	DDR(FOTO_SIG_MODE_PORT) |= FOTO_SIG_MODE_PIN;	// set pin to AUTO-MANUAL lights relay as output
+	DDR(FOTO_SIG_LIGHT_PORT) |= FOTO_SIG_LIGHT_PIN;	// set pin to LED-PASS lights relay as output
 }
 
 
 void foto_check(void)
 {
-	// KANA£ ADC1
+	// channel ADC1
 	ADMUX = (ADMUX & 0xF8) | 1;
 
-	ADCSRA |= (1<<ADSC);			// start pomiarów
-	while( ADCSRA & (1<<ADSC) );	// oczekiwanie na koniec pomiarów
+	ADCSRA |= (1<<ADSC);			// start of measurements
+	while( ADCSRA & (1<<ADSC) );	// wait for end of the measurements
+	foto_value = (ADCW);			// value measured by ADC
 
-	foto_value = (ADCW);			// wartoœæ odczytana przez ADC
-
-
-	if((ref == 0) && !(ref == remember1))		// tryb AUTO + uniknij powtórek
+	if((ref == 0) && !(ref == remember1))		// AUTO mode + prevent repeats
 	{
-		DDR(FOTO_SIG_MODE_PORT) &= ~FOTO_SIG_MODE_PIN;	// przekaŸnik w trybie AUTO
+		PORT(FOTO_SIG_MODE_PORT) |= FOTO_SIG_MODE_PIN;	// relay -> AUTO mode
 
 		remember1 = ref;
 	}
 
 	else if((ref == 1) && !(ref == remember1))
 	{
-		DDR(FOTO_SIG_MODE_PORT) |= FOTO_SIG_MODE_PIN;	// przekaŸnik w trybie MANUAL
+		PORT(FOTO_SIG_MODE_PORT) &= ~FOTO_SIG_MODE_PIN;	// relay -> MANUAL mode
 
 		remember1 = ref;
 	}
 
-	if(ref == 0)					// tryb pracy reflektorów - AUTO
+	if(ref == 0)					// lights mode - AUTO
 	{
-		if((foto_value > 100) && !(remember2 == 1) )
+		if((foto_value > 190) && !(remember2 == 1) )
 		{
-			DDR(FOTO_SIG_LIGHT_PORT) |= FOTO_SIG_LIGHT_PIN;	// œwiat³a mijania
+			PORT(FOTO_SIG_LIGHT_PORT) |= FOTO_SIG_LIGHT_PIN;	// pass lights
 
 			remember2 = 1;
 		}
 
-		else if((foto_value <= 100) && !(remember2 == 0))
+		else if((foto_value <= 170) && !(remember2 == 0))
 		{
-			DDR(FOTO_SIG_LIGHT_PORT) &= ~FOTO_SIG_LIGHT_PIN;	// dzienne LED
+			PORT(FOTO_SIG_LIGHT_PORT) &= ~FOTO_SIG_LIGHT_PIN;	// LED lights
 
 			remember2 = 0;
 		}
@@ -1107,36 +1092,26 @@ void foto_check(void)
 
 
 
-
-
-
-
-
-
-
-
-
-
 // *****************************************************************************************
-// *                                     STOPKA BOCZNA                                     *
+// *                                     	SIDE STAND                                     *
 // *****************************************************************************************
 
-uint8_t check = 0;	// zmienna zapamiêtuj¹ca czy stan czujnika zosta³ sprawdzony
-					// aby unikn¹æ powtórnego wyœwietlania tej samej wartoœci
+uint8_t check = 0;	// stand state was checked?
+					// to prevent display the same information
 
 
-void stand_init(void)	// inicjalizacja przycisku stopki bocznej
+void stand_init(void)	// stand button init
 {
-	DDR(STAND_KEY_PORT) &= ~STAND_KEY_PIN;	// ustawienie pinu przycisku stopki bocznej (WEJŒCIE)
-	PORT(STAND_KEY_PORT) |= STAND_KEY_PIN;	// podci¹gniêcie do VCC
+	DDR(STAND_KEY_PORT) &= ~STAND_KEY_PIN;	// set as input
+	PORT(STAND_KEY_PORT) |= STAND_KEY_PIN;	// pullup
 }
 
 
-void stand_check(void)	// status ustawienia przycisku stopki bocznej
+void stand_check(void)	// check state of stand button
 {
 	check_again:
 
-	if(STAND_KEY_DOWN && !(check == 1))	// czujnik wy³¹czony
+	if(STAND_KEY_DOWN && !(check == 1))	// sensor OFF
 	{
 		check = 1;
 		lcd_cls();
@@ -1147,10 +1122,10 @@ void stand_check(void)	// status ustawienia przycisku stopki bocznej
 		{
 			if((buz == 1) && ((i == 1) || (i==10) || (i == 20) || (i == 30)))
 			{
-				PORT(BUZ_PORT) ^= BUZ_PIN;						// sygna³ dŸwiêkowy x2
+				PORT(BUZ_PORT) ^= BUZ_PIN;						// sound signal
 			}
 
-			if(!STAND_KEY_DOWN)	// zmiana stanu
+			if(!STAND_KEY_DOWN)	// state was changed during sound signal
 			{
 				goto check_again;
 			}
@@ -1158,7 +1133,7 @@ void stand_check(void)	// status ustawienia przycisku stopki bocznej
 		}
 	}
 
-	else if (!(STAND_KEY_DOWN) && (check == 1))	// czujnik w³¹czony
+	else if (!(STAND_KEY_DOWN) && (check == 1))	// sensor ON
 	{
 		check = 0;
 		lcd_cls();
@@ -1169,7 +1144,7 @@ void stand_check(void)	// status ustawienia przycisku stopki bocznej
 		{
 			if((buz == 1) && ((i == 1) || (i == 25)))
 			{
-				PORT(BUZ_PORT) ^= BUZ_PIN;						// sygna³ dŸwiêkowy x1
+				PORT(BUZ_PORT) ^= BUZ_PIN;						// sound signal x1
 			}
 
 			if(STAND_KEY_DOWN)
@@ -1188,36 +1163,26 @@ void stand_check(void)	// status ustawienia przycisku stopki bocznej
 
 
 
-
-
-
-
-
-
-
-
-
-
 // *****************************************************************************************
-// *                                     KIERUNKOWSKAZY                                    *
+// *                                     	BLINKERS                                       *
 // *****************************************************************************************
 
-uint8_t SETblinkers = 0;	// zmienna zapamiêtuj¹ca ustawienie kierunkowskazów
+uint8_t SETblinkers = 0;	// variable saving blinkers state
 
-uint8_t i = 0;	// zmienna pozwalaj¹ca zmniejszyæ czêstotliwoœæ licznika
+uint8_t i = 0;	// variable to reduce timer frequency
 
 void blinkerskey_init(void)
 {
-	DDR(BLINKERS_KEY_PORT) &= ~BLINKERS_KEY_PIN;	// ustawienie pinu przycisku kierunkowskazów (WEJŒCIE)
-	PORT(BLINKERS_KEY_PORT) |= BLINKERS_KEY_PIN;	// podci¹gniêcie do VCC
+	DDR(BLINKERS_KEY_PORT) &= ~BLINKERS_KEY_PIN;	// blinkers button pin as input
+	PORT(BLINKERS_KEY_PORT) |= BLINKERS_KEY_PIN;	// pullup
 }
 
 
 void blinker_init(void)
 {
-	DDR(BLINKERS_PORT) |= BLINKERS_PIN;		// ustawienie pinu sygna³owego kierunkowskazów (WYJŒCIE)
-	PORT(BLINKERS_PORT) &= ~BLINKERS_PIN;	// ustawienie 0 na pinie
-	TIMSK |= (1<<TOIE0);					// zezwolenie na przerwania TIMER0
+	DDR(BLINKERS_PORT) |= BLINKERS_PIN;		// blinkers signal pin as output
+	PORT(BLINKERS_PORT) &= ~BLINKERS_PIN;	// set lo
+	TIMSK |= (1<<TOIE0);					// allow interrupts for TIMER0
 }
 
 
@@ -1225,13 +1190,13 @@ void blinkers_check(void)
 {
 	if((BLINKERS_KEY_DOWN) && !(SETblinkers == 1))
 	{
-		SETblinkers = 1;									// <-- w³¹cz kierunkowskazy
+		SETblinkers = 1;									// <-- blinkers ON
 		use_buz = 1;
 	}
 
 	else if (!(BLINKERS_KEY_DOWN) && (SETblinkers == 1))
 	{
-		SETblinkers = 0;									// <-- wy³¹cz kierunkowskazy
+		SETblinkers = 0;									// <-- blinkers OFF
 		use_buz = 1;
 	}
 }
@@ -1241,25 +1206,25 @@ void blinkers(void)
 {
 	if(SETblinkers == 1)
 	{
-		// obs³uga timera
-		TCCR0 |= (1<<CS02) | (1<<CS00);			// w³¹cz licznik -> preskaler = 1024
+		// timer control
+		TCCR0 |= (1<<CS02) | (1<<CS00);			// timer ON -> prescaler = 1024
 	}
 
 	else if (SETblinkers == 0)
 	{
-		TCCR0 &= ~(1<<CS02);					// wy³¹cz licznik
+		TCCR0 &= ~(1<<CS02);					// timer OFF
 		TCCR0 &= ~(1<<CS00);					// ...
 
-		PORT(BLINKERS_PORT) &= ~BLINKERS_PIN;	// wy³¹cz kierunkowskazy
+		PORT(BLINKERS_PORT) &= ~BLINKERS_PIN;	// blinkers OFF
 	}
 }
 
-// procedura obs³ugi przerwania dla TIMER0
+// TIMER0 interrupt handler
 ISR(TIMER0_OVF_vect)
 {
 	if(i > 14)
 	{
-		PORT(BLINKERS_PORT) ^= BLINKERS_PIN;	// miganie kierunkowskazami
+		PORT(BLINKERS_PORT) ^= BLINKERS_PIN;	// blinkers blinking
 
 		i = 0;
 	}
@@ -1272,24 +1237,14 @@ ISR(TIMER0_OVF_vect)
 
 
 
-
-
-
-
-
-
-
-
-
-
 // ****************************************************************************************
 // *                                         BUZZER                                       *
 // ****************************************************************************************
 
 void buzzer_init(void)
 {
-	DDR(BUZ_PORT) |= BUZ_PIN;		// ustawienie pinu sygna³owego dla buzzera (WYJŒCIE)
-	PORT(BUZ_PORT) &= ~BUZ_PIN;		// ustawienie 0 na pinie
+	DDR(BUZ_PORT) |= BUZ_PIN;		// buzzer pin as output
+	PORT(BUZ_PORT) &= ~BUZ_PIN;		// set lo
 }
 
 
@@ -1318,41 +1273,34 @@ void buzzer_off(void)
 
 
 
-
-
-
-
-
-//							   MANIPULOWANIE WYŒWIETLACZEM
+//							   	   DISPLAY MANIPULATION
 //								|	|	|	|	|	|	|
 //								|	|	|	|	|	|	|
 //								V	V	V	V	V	V	V
 
-//ZMIENNE GLOBALNE:
+//GLOBAL VARIABLES:
 
-uint8_t change = 0;		// zmienna zapamiêtuj¹ca czy treœæ do wyœwietlenia zosta³a zmieniona
-						// aby odczekaæ chwilê przy wyœwietlaniu nowej wartoœci
+uint8_t change = 0;		// variable for display content (is it changed?)
+						// to wait some time before displaying new value
 
-uint8_t content = 0;	// zmienna reprezentuj¹ca treœæ wyœwietlan¹ na ekranie
-
-
+uint8_t content = 0;	// variable that represents content currently displaying on screen
 
 
 
 
 
 // ******************************************************************************************
-// *                                WYŒWIETLACZ - USTAWIENIA                                *
+// *                                	DISPLAY - SETTINGS                                  *
 // ******************************************************************************************
 
-void setkey_init(void)	// inicjalizacja przycisku ustawieñ
+void setkey_init(void)	// init set key
 {
-	DDR(LCD_SET_KEY_PORT) &= ~LCD_SET_KEY_PIN;	// ustawienie pinu przycisku ustawieñ (WEJŒCIE)
-	PORT(LCD_SET_KEY_PORT) |= LCD_SET_KEY_PIN;	// podci¹gniêcie do VCC
+	DDR(LCD_SET_KEY_PORT) &= ~LCD_SET_KEY_PIN;	// as input
+	PORT(LCD_SET_KEY_PORT) |= LCD_SET_KEY_PIN;	// pullup
 }
 
 
-void setkey_check(void)	// sprawdzanie czy przycisk wciœniêty
+void setkey_check(void)	// is it pressed?
 {
 	if(LCD_SET_KEY_DOWN)
 	{
@@ -1361,7 +1309,7 @@ void setkey_check(void)	// sprawdzanie czy przycisk wciœniêty
 		{
 			if(content == 2)
 			{
-				ref++;			// wybór opcji reflektorów
+				ref++;			// switch light mode
 
 				if(ref > 1)
 				{
@@ -1371,7 +1319,7 @@ void setkey_check(void)	// sprawdzanie czy przycisk wciœniêty
 
 			if(content == 3)
 			{
-				buz++;			// wybór opcji buzzera
+				buz++;			// switch buzzer mode
 
 				if(buz > 1)
 				{
@@ -1380,7 +1328,7 @@ void setkey_check(void)	// sprawdzanie czy przycisk wciœniêty
 			}
 
 			use_buz = 1;
-			change = 1;	// "zasz³a zmiana"
+			change = 1;	// "there has been a change"
 		}
 	}
 }
@@ -1390,39 +1338,29 @@ void setkey_check(void)	// sprawdzanie czy przycisk wciœniêty
 
 
 
-
-
-
-
-
-
-
-
-
-
 // *****************************************************************************************
-// *                                  WYŒWIETLACZ - TREŒÆ                                  *
+// *                                  DISPLAY - CONTENT                                    *
 // *****************************************************************************************
 
-uint8_t remember3 = 0;		// zmienna zapamiêtuj¹ca wartoœæ dla grafu
+uint8_t remember3 = 0;		// variable that represents graph value
 
 
 
-void dispkey_init(void)
+void dispkey_init(void)		// display key init
 {
-	DDR(LCD_DISP_KEY_PORT) &= ~LCD_DISP_KEY_PIN;	// ustawienie pinu przycisku wyœwietlacza (WEJŒCIE)
-	PORT(LCD_DISP_KEY_PORT) |= LCD_DISP_KEY_PIN;	// podci¹gniêcie do VCC
+	DDR(LCD_DISP_KEY_PORT) &= ~LCD_DISP_KEY_PIN;	// as input
+	PORT(LCD_DISP_KEY_PORT) |= LCD_DISP_KEY_PIN;	// pullup
 }
 
 
-void dispkey_check(void)	// sprawdzanie czy przycisk zosta³ wciœniêty
+void dispkey_check(void)	// is it pressed?
 {
 	if(LCD_DISP_KEY_DOWN)
 	{
 		_delay_ms(10);
 		if(LCD_DISP_KEY_DOWN)
 		{
-			content++;		// zmiana treœci
+			content++;		// switch content
 
 
 			if(content > 3)
@@ -1430,7 +1368,7 @@ void dispkey_check(void)	// sprawdzanie czy przycisk zosta³ wciœniêty
 				content = 0;
 			}
 
-			change = 1;		// "zasz³a zmiana"
+			change = 1;		// "there has been a change"
 			use_buz = 1;
 		}
 
@@ -1438,9 +1376,9 @@ void dispkey_check(void)	// sprawdzanie czy przycisk zosta³ wciœniêty
 }
 
 
-void display(void)	// wyœwietlanie
+void display(void)	// displaying
 {
-	if(content == 0)						// prêdkoœæ obr. silnika i temperatura
+	if(content == 0)						// RPM & engine temperature
 	{
 		lcd_locate(0,0);
 		lcd_str("RPM:");
@@ -1453,15 +1391,15 @@ void display(void)	// wyœwietlanie
 		lcd_locate(0,15);
 		lcd_str("C");
 
-		graph_value = rpm / 500;			// podzia³ka na 16 bloczków (prostok¹tów)
+		graph_value = rpm / 500;			// graph value of RPM (16 rectangles)
 
 
 		if(graph_value >= 0 || graph_value <= 16)
 		{
-			if(!(remember3 == graph_value))			// jeœli wygl¹d grafu nie zmieni³ siê
-			{										// .. nie nadpisuj go ponownie
+			if(!(remember3 == graph_value))			// if graph value do not change
+			{										// .. do not update it on screen
 
-				while(graph_value)					// wyœwietlanie grafu
+				while(graph_value)					// graph displaying
 				{
 					lcd_locate(1,graph_value-1);
 					lcd_char(255);
@@ -1476,7 +1414,7 @@ void display(void)	// wyœwietlanie
 
 
 
-	if(content == 1)						// data i godzina
+	if(content == 1)						// date & time
 	{
 		lcd_locate(0,0);
 
@@ -1578,7 +1516,7 @@ void display(void)	// wyœwietlanie
 
 
 
-	if(content == 2)						// tryb pracy reflektorów
+	if(content == 2)						// lights mode
 	{
 		lcd_locate(0,0);
 		lcd_str("headlights mode:");
@@ -1598,7 +1536,7 @@ void display(void)	// wyœwietlanie
 
 
 
-	if(content == 3)						// buzzer - w³¹czony / wy³¹czony
+	if(content == 3)						// buzzer - ON / OFF
 	{
 		if(buz == 1)
 		{
@@ -1617,7 +1555,7 @@ void display(void)	// wyœwietlanie
 
 
 
-	if (change == 1)		// jeœli zasz³a zmiana odczekaj sekundê
+	if (change == 1)		// if there has been a change, wait a sec
 	{
 		_delay_ms(12);
 		PORT(BUZ_PORT) &= ~BUZ_PIN;
@@ -1627,12 +1565,6 @@ void display(void)	// wyœwietlanie
 	}
 }
 // *****************************************************************************************
-
-
-
-
-
-
 
 
 
