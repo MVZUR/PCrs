@@ -1,0 +1,27 @@
+Change Component Footprint: Designator=F? Old Footprint=0454003MR New Footprint=FUSC3216X83N
+Change Footprint: Footprint Not Found CAPAE660X810N
+Change Component Comment : Designator=F? Old Comment=0454003.MR New Comment=0685T5000-01
+Change component parameters: Designator = "F?" ("F?"); Footprint = "0454003MR"; UniqueID = "\EMLJVUWW" ("\EMLJVUWW")
+Change component parameters (AddParameter): Name = "Arrow Part Number"; Value = "0685T3000-01"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Arrow Price/Stock"; Value = "https://www.arrow.com/en/products/0685t3000-01/bel-group"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Datasheet Link"; Value = "https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-c1t-series.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Height"; Value = "0.83mm"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer_Name"; Value = "BelFuse"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer_Part_Number"; Value = "0685T3000-01"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Mouser Part Number"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Mouser Price/Stock"; Value = ""; VariantName = "[No Variations]"
+Add component: Footprint Not Found CAPAE660X810N
+Added Component: Designator=IC?(SON50P300X300X100-11N-D)
+Add component (AddParameter): Name = "Arrow Part Number"; Value = "TPS259261DRCR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Arrow Price/Stock"; Value = "https://www.arrow.com/en/products/tps259261drcr/texas-instruments?region=nac"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Link"; Value = "http://www.ti.com/lit/gpn/tps25926"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Height"; Value = "1mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "TPS259261DRCR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Part Number"; Value = "595-TPS259261DRCR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Price/Stock"; Value = "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/TPS259261DRCR?qs=rBWM4%252BvDhIfYkNEYPOLMtQ%3D%3D"; VariantName = "[No Variations]"
+Add Pin To Net: Unknown Pin: Pin C2-1
+Add Pin To Net: Unknown Pin: Pin C2-2
+Add Class Member: Failed to add class member : Component C2 220uF
+Added Member To Class: ClassName=Buffers Member=Component F? 0685T5000-01
+Added Member To Class: ClassName=PowerSupply Member=Component IC? TPS259261DRCR

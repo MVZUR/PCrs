@@ -1,0 +1,13 @@
+Change Component Footprint: Designator=C15 Old Footprint=FP-CL10-IPC_A New Footprint=CAPAE660X810N
+Added Component: Designator=C2(CAPAE660X810N)
+Add component (AddParameter): Name = "Arrow Part Number"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Arrow Price/Stock"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Link"; Value = "https://octopart.com/datasheet/sc1c227m6l07kvr-samwha-30812620"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Height"; Value = "8.1mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "SAMWHA"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "SC1C227M6L07KVR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Part Number"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Price/Stock"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=VCC_bat_p Pin=C2-1
+Added Pin To Net: NetName=VSS Pin=C2-2
+Added Member To Class: ClassName=PowerSupply Member=Component C2 220uF

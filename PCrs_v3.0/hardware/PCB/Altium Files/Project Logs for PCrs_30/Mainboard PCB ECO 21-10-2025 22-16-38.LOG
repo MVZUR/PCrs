@@ -1,0 +1,42 @@
+Removed Pin From Net: NetName=NetD6_2 Pin=D7-1
+Removed Pin From Net: NetName=VSS Pin=D7-2
+Removed Member From Class: ClassName=Buffers Member=D7
+Removed Member From Class: ClassName=PowerSupply Member=IC?
+Change Footprint: Footprint Not Found CAPAE660X810N
+Add component: Footprint Not Found CAPAE660X810N
+Added Component: Designator=D?(DIONM5436X261N)
+Add component (AddParameter): Name = "Arrow Part Number"; Value = "P6SMB15CA"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Arrow Price/Stock"; Value = "https://www.arrow.com/en/products/p6smb15ca/littelfuse?region=nac"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Link"; Value = "https://www.littelfuse.com/~/media/electronics/datasheets/tvs_diodes/littelfuse_tvs_diode_p6smb_datasheet.pdf.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Height"; Value = "2.61mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "LITTELFUSE"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "P6SMB15CA"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Part Number"; Value = "576-P6SMB15CA"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Price/Stock"; Value = "https://www.mouser.co.uk/ProductDetail/Littelfuse/P6SMB15CA?qs=MLCmBfHNlR44V7NRW6hWSw%3D%3D"; VariantName = "[No Variations]"
+Added Component: Designator=D?(DIOM8059X265N)
+Add component (AddParameter): Name = "Arrow Part Number"; Value = "SM5908"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Arrow Price/Stock"; Value = "https://www.arrow.com/en/products/sm5908/stmicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Link"; Value = "http://www.st.com/web/en/resource/technical/document/datasheet/CD00000664.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Height"; Value = "2.65mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "SM5908"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Part Number"; Value = "511-SM5908"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Price/Stock"; Value = "https://www.mouser.co.uk/ProductDetail/STMicroelectronics/SM5908?qs=f9uBznyCLhaHjI8C7snNVQ%3D%3D"; VariantName = "[No Variations]"
+Added Component: Designator=PS?(QFN50P300X400X80-21N)
+Add component (AddParameter): Name = "Arrow Part Number"; Value = "TPS25942ARVCT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Arrow Price/Stock"; Value = "https://www.arrow.com/en/products/tps25942arvct/texas-instruments?utm_currency=USD&region=nac"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Link"; Value = "https://www.arrow.com/en/products/tps25942arvct/texas-instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Height"; Value = "0.8mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "TPS25942ARVCT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Part Number"; Value = "595-TPS25942ARVCT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Price/Stock"; Value = "https://www.mouser.co.uk/ProductDetail/Texas-Instruments/TPS25942ARVCT?qs=1MXlzafEN38%2FhNIOFl0fzQ%3D%3D"; VariantName = "[No Variations]"
+Add Pin To Net: Unknown Pin: Pin C2-1
+Add Pin To Net: Unknown Pin: Pin C2-2
+Added Pin To Net: NetName=VSS Pin=D?-1
+Added Pin To Net: NetName=NetD6_2 Pin=D?-2
+Add Class Member: Failed to add class member : Component C2 220uF
+Added Member To Class: ClassName=Buffers Member=Component D? STTH4R02U
+Added Member To Class: ClassName=Buffers Member=Component D? SM5908
+Added Member To Class: ClassName=Buffers Member=Component F? 0685T3000-01
+Added Member To Class: ClassName=PowerSupply Member=Component PS? TPS25942ARVCT

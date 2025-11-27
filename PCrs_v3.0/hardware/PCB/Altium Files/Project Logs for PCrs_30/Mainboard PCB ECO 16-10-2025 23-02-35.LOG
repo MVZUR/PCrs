@@ -1,0 +1,21 @@
+Removed Member From Class: ClassName=Connectors Member=I/O1
+Change Component Comment : Designator=C15 Old Comment=100nF New Comment=220nF
+Add component: Footprint Not Found CAPAE660X810N
+Add component: Footprint Not Found CAPAE660X810N
+Added Component: Designator=J?(L77SDE09S1ACH4F)
+Add component (AddParameter): Name = "Arrow Part Number"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Arrow Price/Stock"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Link"; Value = "https://cdn.amphenol-cs.com/media/wysiwyg/files/drawing/l77sdxxxs1ach4f.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Height"; Value = "12.93mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "Amphenol Communications Solutions"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "L77SDE09S1ACH4F"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Part Number"; Value = "523-L77SDE09S1ACH4F"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Price/Stock"; Value = "https://www.mouser.com/Search/Refine.aspx?Keyword=523-L77SDE09S1ACH4F"; VariantName = "[No Variations]"
+Add Pin To Net: Unknown Pin: Pin C2-1
+Add Pin To Net: Unknown Pin: Pin C2-2
+Add Pin To Net: Unknown Pin: Pin C16-1
+Add Pin To Net: Unknown Pin: Pin C16-2
+Add Class Member: Failed to add class member : Component C2 220uF
+Add Class Member: Failed to add class member : Component C16 220uF
+Added Member To Class: ClassName=Connectors Member=Component J? L77SDE09S1ACH4F
+Added Member To Class: ClassName=MPU Member=Component U1 SN74LVC1G17DBVR

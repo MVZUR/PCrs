@@ -1,0 +1,86 @@
+Removed Pin From Net: NetName=VCC_k Pin=PWR1-1
+Removed Pin From Net: NetName=VCC_bat Pin=PWR1-2
+Removed Pin From Net: NetName=VCC_rect Pin=PWR1-3
+Removed Pin From Net: NetName=VSS Pin=PWR1-4
+Removed Member From Class: ClassName=Connectors Member=PWR1
+Add component: Footprint Not Found CAPAE660X810N
+Add component: Footprint Not Found CAPAE660X810N
+Added Component: Designator=PWR_IO(649024227222)
+Add component (AddParameter): Name = "Color"; Value = "White"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Connector Type"; Value = "Male Pin, Socket"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Contact Material"; Value = "Copper"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Contact Plating"; Value = "Tin"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Contact Resistance"; Value = "10m?"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current Rating"; Value = "6A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Fastening Type"; Value = "Ramp"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Gender"; Value = "Male"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Height"; Value = "12.8mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Insulation Resistance"; Value = "1G?"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Lead Pitch"; Value = "4.2mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Length"; Value = "51.6mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Operating Temperature"; Value = "105°C"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Operating Temperature"; Value = "-40°C"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mount"; Value = "Through Hole"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "NexarPartId"; Value = "23024662"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Number of Contacts"; Value = "24"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Number of Pins"; Value = "24"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Number of Positions"; Value = "24"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Number of Rows"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Operating Supply Voltage"; Value = "600V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pitch"; Value = "4.2mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "REACH SVHC"; Value = "Unknown"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS"; Value = "Compliant"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Row Spacing"; Value = "4.191mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Termination"; Value = "Solder"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Width"; Value = "51.7mm"; VariantName = "[No Variations]"
+Add Pin To Net: Unknown Pin: Pin C2-1
+Add Pin To Net: Unknown Pin: Pin C2-2
+Add Pin To Net: Unknown Pin: Pin C16-1
+Add Pin To Net: Unknown Pin: Pin C16-2
+Added Pin To Net: NetName=VCC_bat Pin=PWR_IO-1
+Added Pin To Net: NetName=3V3_reg Pin=PWR_IO-4
+Added Pin To Net: NetName=VSS Pin=PWR_IO-13
+Added Pin To Net: NetName=VSS Pin=PWR_IO-14
+Added Pin To Net: NetName=VCC_rect Pin=PWR_IO-15
+Added Pin To Net: NetName=3V3_reg Pin=PWR_IO-16
+Added Pin To Net: NetName=AMB_SCL Pin=PWR_IO-10
+Added Net: Name=AMB_SCL
+Added Pin To Net: NetName=AMB_SDA Pin=PWR_IO-11
+Added Net: Name=AMB_SDA
+Added Pin To Net: NetName=BLINK_BUTTON Pin=PWR_IO-6
+Added Net: Name=BLINK_BUTTON
+Added Pin To Net: NetName=BLINK_mod Pin=PWR_IO-3
+Added Net: Name=BLINK_mod
+Added Pin To Net: NetName=BLINKER_IN1 Pin=PWR_IO-9
+Added Net: Name=BLINKER_IN1
+Added Pin To Net: NetName=BLINKER_IN2 Pin=PWR_IO-8
+Added Net: Name=BLINKER_IN2
+Added Pin To Net: NetName=BULB_OUT Pin=PWR_IO-21
+Added Net: Name=BULB_OUT
+Added Pin To Net: NetName=DISP_BUTTON Pin=PWR_IO-19
+Added Net: Name=DISP_BUTTON
+Added Pin To Net: NetName=FOTO Pin=PWR_IO-23
+Added Net: Name=FOTO
+Added Pin To Net: NetName=HORN_OUT Pin=PWR_IO-20
+Added Net: Name=HORN_OUT
+Added Pin To Net: NetName=LED_OUT Pin=PWR_IO-22
+Added Net: Name=LED_OUT
+Added Pin To Net: NetName=LIGHT_SWITCH Pin=PWR_IO-7
+Added Net: Name=LIGHT_SWITCH
+Added Pin To Net: NetName=RPM Pin=PWR_IO-24
+Added Net: Name=RPM
+Added Pin To Net: NetName=RX Pin=PWR_IO-17
+Added Net: Name=RX
+Added Pin To Net: NetName=SET_BUTTON Pin=PWR_IO-18
+Added Net: Name=SET_BUTTON
+Added Pin To Net: NetName=TMP Pin=PWR_IO-12
+Added Net: Name=TMP
+Added Pin To Net: NetName=TX Pin=PWR_IO-5
+Added Net: Name=TX
+Added Pin To Net: NetName=VCC_bat_k Pin=PWR_IO-2
+Added Net: Name=VCC_bat_k
+Add Class Member: Failed to add class member : Component C2 220uF
+Add Class Member: Failed to add class member : Component C16 220uF
+Added Member To Class: ClassName=Connectors Member=Component PWR_IO I/O
+Added Rule: Name=Schematic Supply Nets
+Added Rule: Name=Schematic Supply Nets_1

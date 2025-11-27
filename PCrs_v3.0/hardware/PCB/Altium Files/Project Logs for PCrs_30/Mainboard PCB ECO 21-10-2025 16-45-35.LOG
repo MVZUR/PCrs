@@ -1,0 +1,15 @@
+Change Footprint: Footprint Not Found CAPAE660X810N
+Add component: Footprint Not Found CAPAE660X810N
+Added Component: Designator=F?(FUSC3216X83N)
+Add component (AddParameter): Name = "Arrow Part Number"; Value = "0685T3000-01"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Arrow Price/Stock"; Value = "https://www.arrow.com/en/products/0685t3000-01/bel-group"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet Link"; Value = "https://www.belfuse.com/resources/datasheets/circuitprotection/ds-cp-c1t-series.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Height"; Value = "0.83mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Name"; Value = "BelFuse"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer_Part_Number"; Value = "0685T3000-01"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Part Number"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser Price/Stock"; Value = ""; VariantName = "[No Variations]"
+Add Pin To Net: Unknown Pin: Pin C2-1
+Add Pin To Net: Unknown Pin: Pin C2-2
+Add Class Member: Failed to add class member : Component C2 220uF
+Added Member To Class: ClassName=Buffers Member=Component F? 0685T3000-01
