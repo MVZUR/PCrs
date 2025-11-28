@@ -1,9 +1,0 @@
-Removed Pin From Net: NetName=V_reg Pin=Q5-1
-Removed Pin From Net: NetName=BLINK_SWITCH_(GND) Pin=Q5-2
-Removed Member From Class: ClassName=Sheet1 Member=Q5
-Added Pin To Net: NetName=BLINK_SWITCH_(GND) Pin=D4-2
-Added Pin To Net: NetName=BLINK_SWITCH_(GND) Pin=K4-5
-Added Pin To Net: NetName=LCD_5V Pin=I/O-4
-Added Net: Name=LCD_5V
-Added Rule: Name=PolygonConnectStyle_114
-Added Rule: Name=PolygonConnectStyle_116
