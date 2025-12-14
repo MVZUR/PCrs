@@ -1,2 +1,0 @@
-Switching voltage regulator in-system measurements were made with 20MHz bandwidth limit, 100Ohm resistive load & following capacitors: 100uF input electrolytic cap & 88uF output ceramic caps
-

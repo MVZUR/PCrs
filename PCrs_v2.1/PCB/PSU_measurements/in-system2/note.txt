@@ -1,0 +1,5 @@
+Switching voltage regulator in-system measurements were made with 20MHz bandwidth limit, 100Ohm resistive load & following capacitors: 220uF input electrolytic cap, 220uF output electrolytic cap & 88uF output ceramic caps
+
+Note that electrolytic capacitors are THD (Trough Hole Devices) & have higher inductance on their terminals which affects the voltage ripple (current resonance effect)
+
+See the pictures in this folder for test configuration. 

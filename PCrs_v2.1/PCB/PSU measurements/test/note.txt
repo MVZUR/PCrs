@@ -1,5 +1,0 @@
-Switching voltage regulator test measurements were made with 20MHz bandwidth limit, 100Ohm resistive load & electrolytics capacitors
-
-For example:
-OUT 33uCap - stands for additional 33uF electrolytic capacitor on output of the buck converter
-IN 100uCap - stands for additional 100uF electrolytic capacitor on input of the buck converter
